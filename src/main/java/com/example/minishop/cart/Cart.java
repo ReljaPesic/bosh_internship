@@ -27,7 +27,7 @@ public class Cart {
 
   public void addItem(CartItem item) {
     for (CartItem cartItem : items) {
-      if (cartItem.getProductId().equals(item.getProductId())) {
+      if (cartItem.getId().equals(item.getId())) {
         cartItem.setQuantity(cartItem.getQuantity() + item.getQuantity());
         return;
       }
@@ -37,7 +37,7 @@ public class Cart {
 
   public void removeItem(Long productId) {
     for (CartItem cartItem : items) {
-      if (cartItem.getProductId().equals(productId)) {
+      if (cartItem.getId().equals(productId)) {
         if (cartItem.getQuantity() > 1) {
           cartItem.setQuantity(cartItem.getQuantity() - 1);
         } else {

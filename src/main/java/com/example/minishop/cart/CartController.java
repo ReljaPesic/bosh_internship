@@ -30,7 +30,7 @@ public class CartController {
 
   @PutMapping("/item/{id}")
   public Cart updateItemQuantity(@PathVariable Long id, @RequestBody int quantity) {
-    cart.getItems().steam()
+    cart.getItems().stream()
         .filter(i -> i.getId().equals(id))
         .findFirst()
         .ifPresent(i -> i.setQuantity(quantity));
