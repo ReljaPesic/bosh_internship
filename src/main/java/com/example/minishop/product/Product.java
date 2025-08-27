@@ -20,8 +20,10 @@ public class Product {
   @Column(nullable = false)
   @NotBlank(message = "Name is mandatory, it cannot be an empty string")
   private String name;
+
   @Size(max = 500, message = "Description cannot be longer than 500 characters")
   private String description;
+
   @NotNull(message = "Price is required")
   @Positive(message = "Price must be greater than 0")
   private Double price;
