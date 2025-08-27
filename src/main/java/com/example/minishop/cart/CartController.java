@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.minishop.product.Product;
 import com.example.minishop.product.ProductRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import lombok.AllArgsConstructor;
 import jakarta.validation.Valid;
 import java.lang.RuntimeException;
@@ -21,18 +24,21 @@ import java.lang.RuntimeException;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/cart")
+@Tag(name = "Cart", description = "Shopping cart API")
 public class CartController {
 
   private final Cart cart = new Cart();
   private final ProductRepository productRepository;
 
   @PostMapping("/add")
+  @Operation(summary = "Add a new item to a shoping cart")
   public Cart addToCart(@Valid @RequestBody CartItem item) {
     cart.addItem(item);
     return cart;
   }
 
   @GetMapping
+  @Operation(summary = "List all items in the cart")
   public List<CartItemDTO> getCartItems() {
     return cart.getItems().stream()
         .map(item -> {
@@ -44,6 +50,7 @@ public class CartController {
   }
 
   @PutMapping("/item/{id}")
+  @Operation(summary = "Update specific item quantity")
   public Cart updateItemQuantity(@PathVariable Long id, @Valid @RequestBody UpdateQuantityRequest quantityRequest) {
     cart.getItems().stream()
         .filter(i -> i.getId().equals(id))
@@ -53,6 +60,7 @@ public class CartController {
   }
 
   @DeleteMapping("/item/{id}")
+  @Operation(summary = "Remove a specific item from a cart")
   public Cart removeItem(@PathVariable Long id) {
     cart.removeItem(id);
     return cart;

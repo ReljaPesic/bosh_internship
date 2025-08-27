@@ -12,15 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
+@Tag(name = "Products", description = "Product management API")
 public class ProductController {
 
   private final ProductRepository productRepository;
 
   @GetMapping("/api/products")
+  @Operation(summary = "List all products")
   public Page<Product> getAll(@RequestParam(required = false) String name,
       @PageableDefault(size = 10, sort = "id") Pageable pageable) {
     if (name != null && !name.isEmpty()) {
@@ -30,11 +35,13 @@ public class ProductController {
   }
 
   @GetMapping("/api/products/{id}")
+  @Operation(summary = "Get specific product by id")
   public Product getById(@PathVariable Long id) {
     return productRepository.findById(id).orElse(null);
   }
 
   @PostMapping("/api/products")
+  @Operation(summary = "Add new product")
   public Product create(@Valid @RequestBody Product product) {
     return productRepository.save(product);
   }
