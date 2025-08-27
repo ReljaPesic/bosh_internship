@@ -15,7 +15,7 @@ import com.example.minishop.product.Product;
 import com.example.minishop.product.ProductRepository;
 
 import lombok.AllArgsConstructor;
-
+import jakarta.validation.Valid;
 import java.lang.RuntimeException;
 
 @RestController
@@ -27,7 +27,7 @@ public class CartController {
   private final ProductRepository productRepository;
 
   @PostMapping("/add")
-  public Cart addToCart(@RequestBody CartItem item) {
+  public Cart addToCart(@Valid @RequestBody CartItem item) {
     cart.addItem(item);
     return cart;
   }
@@ -44,11 +44,11 @@ public class CartController {
   }
 
   @PutMapping("/item/{id}")
-  public Cart updateItemQuantity(@PathVariable Long id, @RequestBody int quantity) {
+  public Cart updateItemQuantity(@PathVariable Long id, @Valid @RequestBody UpdateQuantityRequest quantityRequest) {
     cart.getItems().stream()
         .filter(i -> i.getId().equals(id))
         .findFirst()
-        .ifPresent(i -> i.setQuantity(quantity));
+        .ifPresent(i -> i.setQuantity(quantityRequest.getQuantity()));
     return cart;
   }
 
