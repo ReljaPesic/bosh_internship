@@ -1,6 +1,7 @@
 package com.example.minishop.user;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,9 @@ public class UserService {
 
   public boolean userExists(String username) {
     return userRepository.existsByUsername(username);
+  }
+
+  public Optional<User> findByUsername(String username) {
+    return userRepository.findByUsername(username);
   }
 }
