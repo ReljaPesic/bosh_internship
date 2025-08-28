@@ -6,8 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import com.example.minishop.product.Product;
-import com.example.minishop.product.ProductService;
 import com.example.minishop.user.User;
+import com.example.minishop.user.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CartService {
   private final CartRepository cartRepository;
-  private ProductService productService;
   private UserService userService;
 
   public Cart addToCart(CartItem cartItem, Long userId) {
@@ -32,7 +31,7 @@ public class CartService {
     Cart cart = user.getCart();
 
     return cart.getItems().stream()
-        .map(item -> new CartItemDTO(product, item.getQuantity()))
+        .map(item -> new CartItemDTO(item.getProduct(), item.getQuantity()))
         .toList();
   }
 
@@ -41,7 +40,7 @@ public class CartService {
     Cart cart = user.getCart();
 
     cart.getItems().stream()
-        .filter(i -> i.getId().equals(id))
+        .filter(i -> i.getId().equals(itemId))
         .findFirst()
         .ifPresent(i -> i.setQuantity(quantityRequest.getQuantity()));
     return cart;
@@ -57,8 +56,8 @@ public class CartService {
 
   private Cart createCartForUser(Long userId) {
     User user = userService.findById(userId);
-
     Cart cart = new Cart();
+
     cart.setUser(user);
     return cartRepository.save(cart);
   }
