@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,10 @@ public class Cart {
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<CartItem> items = new ArrayList<>();
+
+  @OneToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 
   public void addItem(CartItem item) {
     for (CartItem cartItem : items) {

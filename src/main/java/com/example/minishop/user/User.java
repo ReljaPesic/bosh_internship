@@ -18,7 +18,7 @@ public class User {
   private String username;
   private String password;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Cart cart;
 
   @Enumerated(EnumType.STRING)

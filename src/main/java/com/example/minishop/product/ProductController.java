@@ -22,28 +22,25 @@ import lombok.AllArgsConstructor;
 @Tag(name = "Products", description = "Product management API")
 public class ProductController {
 
-  private final ProductRepository productRepository;
+  private final ProductService productService;
 
   @GetMapping("/api/products")
   @Operation(summary = "List all products")
   public Page<Product> getAll(@RequestParam(required = false) String name,
       @PageableDefault(size = 10, sort = "id") Pageable pageable) {
-    if (name != null && !name.isEmpty()) {
-      return productRepository.findByName(name, pageable);
-    }
-    return productRepository.findAll(pageable);
+    return productService.getAll(name, pageable);
   }
 
   @GetMapping("/api/products/{id}")
   @Operation(summary = "Get specific product by id")
   public Product getById(@PathVariable Long id) {
-    return productRepository.findById(id).orElse(null);
+    return productService.getById(id);
   }
 
   @PostMapping("/api/products")
   @Operation(summary = "Add new product")
   public Product create(@Valid @RequestBody Product product) {
-    return productRepository.save(product);
+    return productService.create(product);
   }
 
 }
