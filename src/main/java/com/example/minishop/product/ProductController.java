@@ -42,5 +42,4 @@ public class ProductController {
   public Product create(@Valid @RequestBody Product product) {
     return productService.create(product);
   }
-
 }

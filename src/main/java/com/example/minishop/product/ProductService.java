@@ -1,8 +1,14 @@
 package com.example.minishop.product;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import lombok.AllArgsConstructor;
+
 import org.springframework.data.domain.Page;
 
+@Service
+@AllArgsConstructor
 public class ProductService {
 
   private final ProductRepository productRepository;

@@ -3,14 +3,9 @@ package com.example.minishop.cart;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import com.example.minishop.user.User;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,12 +19,12 @@ public class Cart {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<CartItem> items = new ArrayList<>();
-
   @OneToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<CartItem> items = new ArrayList<>();
 
   public void addItem(CartItem item) {
     for (CartItem cartItem : items) {
@@ -41,16 +36,12 @@ public class Cart {
     items.add(item);
   }
 
-  public void removeItem(Long productId) {
+  public void removeItem(Long cartItemId) {
     for (CartItem cartItem : items) {
-      if (cartItem.getId().equals(productId)) {
-        if (cartItem.getQuantity() > 1) {
-          cartItem.setQuantity(cartItem.getQuantity() - 1);
-        } else {
-          items.remove(cartItem);
-        }
-        return;
+      if (cartItem.getId().equals(cartItemId)) {
+        items.remove(cartItem);
       }
+      return;
     }
   }
 }
